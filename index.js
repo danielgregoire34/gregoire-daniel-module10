@@ -1,9 +1,9 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-const Employee = require('./Employee');
-const Manager = require('./Manager');
-const Engineer = require('./Engineer');
-const Intern = require('./Intern');
+const Employee = require('./lib/Employee');
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 
 
 const addEmployee =[];
@@ -38,7 +38,7 @@ inquirer.prompt([
     }else if(data.teamlist==='Intern'){
         createIntern();
     } else if(data.teamlist==='Finish'){
-        fs.writeFile('./index.html',writeTeam(data),(err) =>
+        fs.writeFile('./lib/index.html',writeTeam(data),(err) =>
         err ? console.log(err) : console.log('Success!')
         ); 
         
