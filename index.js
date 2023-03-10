@@ -4,9 +4,12 @@ const Employee = require('./lib/Employee');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
-
+const template = require('./src/template');
 
 const addEmployee =[];
+
+
+teamMaker();
 
 function teamMaker(){
     inquirer.prompt([
@@ -38,63 +41,15 @@ inquirer.prompt([
     }else if(data.teamlist==='Intern'){
         createIntern();
     } else if(data.teamlist==='Finish'){
-        fs.writeFile('./lib/index.html',writeTeam(data),(err) =>
+        fs.writeFile('./dist/index.html',data,(err) =>
         err ? console.log(err) : console.log('Success!')
         ); 
-        
+        createTeam();
         writeTeam(data);
     }
 });
 
-}
-
-
-let writeTeam = (data) => {
-    return `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title> Team profile </title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        <h1>
-        </h1>
-    </body>
-    </html>`
-
-}
-
-
-
-
-function createTeam(){
-
-
-
-    //fs.writeFileSync('./index.html',writeTeam(data),err); 
-
-    /*
-    inquirer.prompt([
-        {
-            type: 'list',
-            name: 'confirm',
-            message: 'Are you sure?',
-            choices: ['Yes','No'],
-        }
-    ]).then((data)=>{
-        if(data.confirm ==='Yes'){
-            fs.writeFile(filename, writeTeam(data), (err) =>
-            err ? console.log(err) : console.log('Success!')
-            );
-        } else if(data.confirm ==='No'){
-        }
-    })
-    */
-}
-
+};
 
 function createManager(){
     inquirer.prompt([
@@ -119,29 +74,23 @@ function createManager(){
             message:'What is your managers office number?',
         },
     ]).then((data)=>{
-        const manager = new Manager(data.id, data.email, data.officeNumber);
-        managerWrite(data)
-        fs.appendFile('./index.html',managerWrite(data), (err) =>
-        err ? console.log(err) : console.log('Success!')
-        ); 
-        //teamMaker.push(manager);
-        addTeamMember();
+        const manager = new Manager(data.name, data.id, data.email,data.officenumber);
+        addEmployee.push(manager);
+        return createTeam();
+
     })
 
+};
+
+
+function createTeam(){
+let finalTeamHtml = template(addEmployee);
+writeFile(finalTeamHtml)
+};
+
+
+const writeFile = (team)=>{
+    fs.writeFile('./dist/index.html',team,(err)=>{
+
+    })
 }
-
-let managerWrite = (data) => {
-    return `
-    
-    <p>${data.name}<p>
-    <p>${data.id}<p>
-    <p>${data.email}<p>
-    <p>${data.officeNumber}<p>
-    
-    
-    `
-
-}
-
-
-teamMaker();
