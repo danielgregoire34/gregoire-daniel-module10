@@ -41,11 +41,7 @@ inquirer.prompt([
     }else if(data.teamlist==='Intern'){
         createIntern();
     } else if(data.teamlist==='Finish'){
-        fs.writeFile('./dist/index.html',data,(err) =>
-        err ? console.log(err) : console.log('Success!')
-        ); 
         createTeam();
-        writeTeam(data);
     }
 });
 
@@ -76,21 +72,75 @@ function createManager(){
     ]).then((data)=>{
         const manager = new Manager(data.name, data.id, data.email,data.officenumber);
         addEmployee.push(manager);
+        addTeamMember();
         return createTeam();
-
     })
-
 };
-
+function createEngineer(){
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message:'What is your enginners name?',
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message:'What is your engineers id?',
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message:'What is your engineers email?',
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message:'What is your engineers github?',
+        },
+    ]).then((data)=>{
+        const engineer = new Engineer(data.name, data.id, data.email,data.github);
+        addEmployee.push(engineer);
+        addTeamMember();
+        return createTeam();
+    })
+};
+function createIntern(){
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message:'What is your interns name?',
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message:'What is your interns id?',
+        },
+        {
+            type: 'input',
+            name: 'email',
+            message:'What is your interns email?',
+        },
+        {
+            type: 'input',
+            name: 'school',
+            message:'What school did the Intern go to?',
+        },
+    ]).then((data)=>{
+        const intern = new Intern(data.name, data.id, data.email,data.school);
+        addEmployee.push(intern);
+        addTeamMember();
+        return createTeam();
+    })
+};
 
 function createTeam(){
 let finalTeamHtml = template(addEmployee);
 writeFile(finalTeamHtml)
 };
 
-
 const writeFile = (team)=>{
     fs.writeFile('./dist/index.html',team,(err)=>{
-
     })
 }

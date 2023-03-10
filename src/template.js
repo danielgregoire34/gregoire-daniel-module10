@@ -7,6 +7,24 @@ const manager = data => {
     <h3> ${data.OfficeNumber()}</h3>
     `
 }
+const intern = data => {
+    return `
+    <h3> ${data.Id()}</h3>
+    <h3> ${data.Role()}</h3>
+    <h3> ${data.Email()}</h3>
+    <h3> ${data.Name()}</h3>
+    <h3> ${data.School()}</h3>
+    `
+}
+const engineer = data => {
+    return `
+    <h3> ${data.Id()}</h3>
+    <h3> ${data.Role()}</h3>
+    <h3> ${data.Email()}</h3>
+    <h3> ${data.Name()}</h3>
+    <h3> ${data.Github()}</h3>
+    `
+}
 
 
 
@@ -15,9 +33,19 @@ const employee = teamArray =>{
 
     let teamhtml = ''
 
-    for (i=0;i<teamArray.length;i++){
-        if(teamArray[i].Role()==="Manager"){
+    for (i=0;i<teamArray.length;i++)
+        {
+        if(teamArray[i].Role()==="Manager")
+        {
             teamhtml = teamhtml + manager(teamArray[i])
+        }
+        else if(teamArray[i].Role()==="Intern")
+        {
+            teamhtml = teamhtml + intern(teamArray[i])
+        }
+        else if(teamArray[i].Role()==="Engineer")
+        {
+            teamhtml = teamhtml + engineer(teamArray[i])
         }
     } return teamhtml
 
